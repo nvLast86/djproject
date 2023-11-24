@@ -1,3 +1,5 @@
+import os
+
 """
 Django settings for config project.
 
@@ -80,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'catalog',
         'USER': 'postgres',
-        'PASSWORD': '135790',
+        'PASSWORD': os.environ['postgres'],
     }
 }
 
