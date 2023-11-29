@@ -17,7 +17,8 @@ class Command(BaseCommand):
         # загружаем данные по категориям из data_category.json из папки data
         with open('data/data_category.json', 'r', encoding='utf-8') as file:
             category = json.loads(file.read())
-            with psycopg2.connect(host='localhost', database='catalog', user='postgres', password=os.environ['postgres']) as conn:
+            with psycopg2.connect(host='localhost', database='catalog', user='postgres',
+                                  password=os.environ['postgres']) as conn:
                 with conn.cursor() as cur:
                     for i in range(0, len(category)):
                         cur.execute("INSERT INTO catalog_category VALUES (%s, %s, %s)",
@@ -28,7 +29,8 @@ class Command(BaseCommand):
         # загружаем данные по товарам из data_product.json из папки data
         with open('data/data_product.json', 'r', encoding='utf-8') as file:
             product = json.loads(file.read())
-            with psycopg2.connect(host='localhost', database='catalog', user='postgres', password=os.environ['postgres']) as conn:
+            with psycopg2.connect(host='localhost', database='catalog', user='postgres',
+                                  password=os.environ['postgres']) as conn:
                 with conn.cursor() as cur:
                     for i in range(0, len(product)):
                         cur.execute("INSERT INTO catalog_product VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
