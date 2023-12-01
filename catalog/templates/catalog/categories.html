@@ -1,0 +1,15 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+
+<p>Имеются следующие категории товаров:</p>
+
+<ul>
+    {% for category in categories %}
+       <li>{{ category }}</li>
+    {% empty %}
+       <li>нет категорий</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Category
 
 
 # Create your views here.
@@ -13,3 +14,9 @@ def contacts(request):
         message = request.POST.get('message')
         print(f'{name} {email} {message}')
     return render(request, 'catalog/contacts.html')
+
+
+def categories(request):
+    categories = Category.objects.order_by('pk')
+    context = {'categories': categories}
+    return render(request, 'catalog/categories.html', context)
