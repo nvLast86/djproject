@@ -5,7 +5,7 @@
     "fields": {
       "name": "Intel Core i5-12500",
       "description": "LGA 1700, 6 x 3 ГГц, L2 - 7.5 МБ, L3 - 18 МБ, 2хDDR4, DDR5-4800 МГц, Intel UHD Graphics 770, TDP 117 Вт",
-      "image": "products/12500.jpg",
+      "image": "products/12500.JPG",
       "category": 2,
       "price": "17499.00",
       "create_date": "2023-11-19T18:51:31Z",
