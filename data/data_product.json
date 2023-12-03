@@ -5,7 +5,7 @@
     "fields": {
       "name": "Intel Core i5-12500",
       "description": "LGA 1700, 6 x 3 ГГц, L2 - 7.5 МБ, L3 - 18 МБ, 2хDDR4, DDR5-4800 МГц, Intel UHD Graphics 770, TDP 117 Вт",
-      "image": "",
+      "image": "products/12500.jpg",
       "category": 2,
       "price": "17499.00",
       "create_date": "2023-11-19T18:51:31Z",
@@ -18,7 +18,7 @@
     "fields": {
       "name": "Intel Core i7-13700KF",
       "description": "LGA 1700, 8P x 3.4 ГГц, 8E x 2.5 ГГц, L2 - 24 МБ, L3 - 30 МБ, 2хDDR4, DDR5-5600 МГц, TDP 253 Вт",
-      "image": "",
+      "image": "products/13700.jpg",
       "category": 2,
       "price": "40999.00",
       "create_date": "2023-11-20T19:01:01Z",
@@ -31,7 +31,7 @@
     "fields": {
       "name": "Intel Core i9-13900KF",
       "description": "LGA 1700, 8P x 3 ГГц, 16E x 2.2 ГГц, L2 - 32 МБ, L3 - 36 МБ, 2хDDR4, DDR5-5600 МГц, TDP 253 Вт",
-      "image": "",
+      "image": "products/13900.jpg",
       "category": 2,
       "price": "58999.00",
       "create_date": "2023-11-20T19:02:33Z",
@@ -44,7 +44,7 @@
     "fields": {
       "name": "ASUS TUF GAMING B660M-PLUS D4",
       "description": "LGA 1700, Intel B660, 4xDDR4-3200 МГц, 2xPCI-Ex16, 2xM.2, Micro-ATX",
-      "image": "",
+      "image": "products/B660M.jpg",
       "category": 3,
       "price": "14999.00",
       "create_date": "2023-11-20T19:03:22Z",
@@ -57,7 +57,7 @@
     "fields": {
       "name": "ASRock Z790 Pro RS/D4",
       "description": "LGA 1700, Intel Z790, 4xDDR4-3200 МГц, 2xPCI-Ex16, 4xM.2, Standard-ATX",
-      "image": "",
+      "image": "products/Z790.jpg",
       "category": 3,
       "price": "17499.00",
       "create_date": "2023-11-19T19:04:12Z",
@@ -70,7 +70,7 @@
     "fields": {
       "name": "ADATA XPG GAMMIX D10 [AX4U320016G16A-DB10]",
       "description": "DDR4, 16 ГБx2 шт, 3200 МГц, 16-20-20",
-      "image": "",
+      "image": "products/XPG.jpg",
       "category": 4,
       "price": "6899.00",
       "create_date": "2023-11-19T19:05:10Z",
@@ -83,7 +83,7 @@
     "fields": {
       "name": "Kingston FURY Beast Black [KF426C16BBK2/32]",
       "description": "DDR4, 16 ГБx2 шт, 2666 МГц, 16-18-18",
-      "image": "",
+      "image": "products/fury.jpg",
       "category": 4,
       "price": "7499.00",
       "create_date": "2023-11-19T19:05:57Z",
@@ -96,7 +96,7 @@
     "fields": {
       "name": "G.Skill AEGIS [F4-3200C16D-32GIS]",
       "description": "DDR4, 16 ГБx2 шт, 3200 МГц, 16-18-18-38",
-      "image": "",
+      "image": "products/gskill.jpg",
       "category": 4,
       "price": "6499.00",
       "create_date": "2023-11-21T19:06:42Z",
@@ -109,7 +109,7 @@
     "fields": {
       "name": "WD Green SN350 [WDS480G2G0C]",
       "description": "PCI-E 3.x x4, чтение - 2400 Мбайт/сек, запись - 1650 Мбайт/сек, 3 бит TLC, NVM Express",
-      "image": "",
+      "image": "products/SN350.jpg",
       "category": 5,
       "price": "3199.00",
       "create_date": "2023-11-18T19:07:24Z",
@@ -122,7 +122,7 @@
     "fields": {
       "name": "ADATA Falcon [AFALCON-512G-C]",
       "description": "PCI-E 3.x x4, чтение - 3000 Мбайт/сек, запись - 1500 Мбайт/сек, 3 бит TLC, NVM Express",
-      "image": "",
+      "image": "products/falcon.jpg",
       "category": 5,
       "price": "3299.00",
       "create_date": "2023-11-23T19:08:07Z",
@@ -135,7 +135,7 @@
     "fields": {
       "name": "MSI SPATIUM M450 [S78-440K190-P83]",
       "description": "PCI-E 4.0 x4, чтение - 3600 Мбайт/сек, запись - 2300 Мбайт/сек, NVM Express",
-      "image": "",
+      "image": "products/spatium.jpg",
       "category": 5,
       "price": "3699.00",
       "create_date": "2023-11-18T19:09:05Z",
@@ -148,7 +148,7 @@
     "fields": {
       "name": "Samsung 980 [MZ-V8V500BW]",
       "description": "PCI-E 3.x x4, чтение - 3100 Мбайт/сек, запись - 2600 Мбайт/сек, 3 бит MLC (TLC), NVM Express",
-      "image": "",
+      "image": "products/980.jpg",
       "category": 5,
       "price": "4899.00",
       "create_date": "2023-11-22T19:09:43Z",
@@ -161,7 +161,7 @@
     "fields": {
       "name": "Seagate BarraCuda [ST1000DM010]",
       "description": "SATA III, 6 Гбит/с, 7200 об/мин, кэш память - 64 МБ",
-      "image": "",
+      "image": "products/seagate.jpg",
       "category": 6,
       "price": "3399.00",
       "create_date": "2023-11-17T19:10:19Z",
@@ -174,7 +174,7 @@
     "fields": {
       "name": "WD Blue [WD10EZEX]",
       "description": "SATA III, 6 Гбит/с, 7200 об/мин, кэш память - 64 МБ",
-      "image": "",
+      "image": "products/blue.jpg",
       "category": 6,
       "price": "3499.00",
       "create_date": "2023-11-23T19:10:52Z",
@@ -187,7 +187,7 @@
     "fields": {
       "name": "GIGABYTE GeForce RTX 3060 GAMING OC (LHR) [GV-N3060GAMING OC-12GD Rev2.0]",
       "description": "PCI-E 4.0 12 ГБ GDDR6, 192 бит, DisplayPort x2, HDMI x2, GPU 1837 МГц",
-      "image": "",
+      "image": "products/3060.jpg",
       "category": 7,
       "price": "37499.00",
       "create_date": "2023-11-15T19:11:40Z",
@@ -200,7 +200,7 @@
     "fields": {
       "name": "Palit GeForce RTX 4090 GameRock [NED4090019SB-1020G]",
       "description": "PCI-E 4.0 24 ГБ GDDR6X, 384 бит, DisplayPort x3, HDMI, GPU 2235 МГц",
-      "image": "",
+      "image": "products/4090.jpg",
       "category": 7,
       "price": "99999.00",
       "create_date": "2023-11-21T19:12:16Z",
@@ -213,7 +213,7 @@
     "fields": {
       "name": "ZALMAN Z10 PLUS [Z10 Plus]",
       "description": "Mid-Tower, E-ATX, Micro-ATX, Mini-ITX, Standard-ATX, USB 3.2 Gen1 Type-A, USB 3.2 Gen2 Type-C",
-      "image": "",
+      "image": "products/Z10.jpg",
       "category": 1,
       "price": "8699.00",
       "create_date": "2023-11-20T19:13:18Z",
