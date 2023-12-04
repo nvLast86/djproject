@@ -2,12 +2,20 @@
 {% block content %}
     <div class="row">
         {% for object in object_list %}
-            <div class="col-md-4">
-                <img src={{ object.image.url }} alt={{ object.name }} class="img-fluid rounded-start" width="100" height="100">
-                <h2>{{ object.name }}</h2>
-                <p>{{ object.description|slice:100 }}</p>
-                <p><a class="btn btn-secondary" href="#" role="button">Подробнее &raquo;</a></p>
+
+        <div class="col-md-4 flex-shrink: 0 gy-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ object.name }}</h5>
+                    <img src={{ object.image.url }} alt={{ object.name }} class="img-fluid rounded-start" width="100"
+                         height="100">
+                    <p class="card-text">{{ object.description|slice:100 }}</p>
+                    <a href="{% url 'catalog:product-detail' object.pk %}" class="btn btn-primary bg-secondary">Подробнее</a>
+                </div>
             </div>
+        </div>
+
+
         {% endfor %}
     </div>
 {% endblock %}

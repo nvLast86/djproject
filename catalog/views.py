@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Product
-from django.views.generic import DetailView
+from django.views import generic
 
 
 # Create your views here.
@@ -25,5 +25,14 @@ def products(request):
         'object_list': Product.objects.all()
     }
     return render(request, 'catalog/products.html', context)
+
+
+class ProductDetailView(generic.DetailView):
+    model = Product
+    context_object_name = 'product'
+    pk_url_kwarg = 'id'
+
+
+
 
 
