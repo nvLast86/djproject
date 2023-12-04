@@ -4,7 +4,8 @@
     "pk": 1,
     "fields": {
       "name": "Case",
-      "description": "Корпуса"
+      "description": "Корпуса",
+      "image": "categories/z10.jpg"
     }
   },
   {
@@ -12,7 +13,8 @@
     "pk": 2,
     "fields": {
       "name": "CPU",
-      "description": "Процессоры"
+      "description": "Процессоры",
+      "image": "categories/12500.jpg"
     }
   },
   {
@@ -20,7 +22,8 @@
     "pk": 3,
     "fields": {
       "name": "Motherboards",
-      "description": "Материнские платы"
+      "description": "Материнские платы",
+      "image": "categories/B660M.jpg"
     }
   },
   {
@@ -28,7 +31,8 @@
     "pk": 4,
     "fields": {
       "name": "RAM",
-      "description": "Оперативная память"
+      "description": "Оперативная память",
+      "image": "categories/fury.jpg"
     }
   },
   {
@@ -36,7 +40,8 @@
     "pk": 5,
     "fields": {
       "name": "SSD",
-      "description": "SSD"
+      "description": "SSD",
+      "image": "categories/980.jpg"
     }
   },
   {
@@ -44,7 +49,8 @@
     "pk": 6,
     "fields": {
       "name": "HDD",
-      "description": "HDD"
+      "description": "HDD",
+      "image": "categories/blue.jpg"
     }
   },
   {
@@ -52,7 +58,8 @@
     "pk": 7,
     "fields": {
       "name": "GPU",
-      "description": "Видеокарты"
+      "description": "Видеокарты",
+      "image": "categories/4090.jpg"
     }
   }
 ]
