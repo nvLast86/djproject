@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Product
+from .models import Product, Category
 from django.views import generic
 
 
@@ -33,6 +33,10 @@ class ProductDetailView(generic.DetailView):
     pk_url_kwarg = 'id'
 
 
-
+def categories(request):
+    context = {
+        'object_list': Category.objects.all()
+    }
+    return render(request, 'catalog/categories.html', context)
 
 

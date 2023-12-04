@@ -21,10 +21,11 @@ class Command(BaseCommand):
                                   password=os.environ['postgres']) as conn:
                 with conn.cursor() as cur:
                     for i in range(0, len(category)):
-                        cur.execute("INSERT INTO catalog_category VALUES (%s, %s, %s)",
+                        cur.execute("INSERT INTO catalog_category VALUES (%s, %s, %s, %s)",
                                     (category[i]['pk'],
                                      category[i]['fields']['name'],
-                                     category[i]['fields']['description']))
+                                     category[i]['fields']['description'],
+                                     category[i]['fields']['image']))
 
         # загружаем данные по товарам из data_product.json из папки data
         with open('data/data_product.json', 'r', encoding='utf-8') as file:
