@@ -1,0 +1,42 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+
+<div class="row">
+  <div class="col-12 col-md-8 gy-4">
+    <h3>{{ product.name }}</h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 col-md-4 gy-4">
+    <img src={{ object.image.url }} alt={{ object.name }} class="img-fluid rounded-start" width="300" height="300">
+  </div>
+  <div class="col-6 col-md-8 gy-4">
+    <tbody>
+    <tr>
+      <td>Категория товара:</td>
+      <td>{{ product.category }}</td>
+    </tr></br>
+    <tr>
+      <td>Описание:</td>
+      <td>{{ product.description }}</td>
+    </tr></br>
+    <tr>
+      <td>Цена:</td>
+      <td>{{ product.price }} руб.</td>
+    </tr></br>
+    <tr>
+      <td>Дата добавления:</td>
+      <td>{{ product.create_date }}</td>
+    </tr></br>
+    <tr>
+      <td>Дата последнего изменения:</td>
+      <td>{{ product.last_change_date }}</td>
+    </tr></br>
+    </tbody>
+  </div>
+</div>
+
+
+
+{% endblock %}
