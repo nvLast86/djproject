@@ -3,12 +3,14 @@ from .models import Product, Category
 from django.views import generic
 
 
-# Create your views here.
-def home(request):
-    context = {
-        'object_list': Product.objects.all()
-    }
-    return render(request, 'catalog/home.html', context)
+class HomeView(generic.TemplateView):
+    template_name = 'catalog/home.html'
+    extra_context = { 'title': 'Главная страница'}
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['object_list'] = Product.objects.all()
+        return context_data
 
 
 def contacts(request):
@@ -20,11 +22,9 @@ def contacts(request):
     return render(request, 'catalog/contacts.html')
 
 
-def products(request):
-    context = {
-        'object_list': Product.objects.all()
-    }
-    return render(request, 'catalog/products.html', context)
+class ProductListView(generic.ListView):
+    model = Product
+    template_name = 'catalog/home.html'
 
 
 class ProductDetailView(generic.DetailView):
@@ -33,10 +33,8 @@ class ProductDetailView(generic.DetailView):
     pk_url_kwarg = 'id'
 
 
-def categories(request):
-    context = {
-        'object_list': Category.objects.all()
-    }
-    return render(request, 'catalog/categories.html', context)
+class CategoryListView(generic.ListView):
+    model = Category
+    template_name = 'catalog/categories.html'
 
 
