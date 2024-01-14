@@ -7,10 +7,10 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ('name', 'description', 'image', 'category', 'price',)
+        fields = ('title', 'description', 'image', 'category', 'price',)
 
     def clean_name(self):
-        cleaned_name = self.cleaned_data['name']
+        cleaned_name = self.cleaned_data['title']
         for word in self.forbidden_words:
             if word in cleaned_name.lower():
                 raise forms.ValidationError(f'Название не может содержать слово "{word}"')
@@ -22,3 +22,4 @@ class ProductForm(forms.ModelForm):
             if word in cleaned_description.lower():
                 raise forms.ValidationError(f'Описание не может содержать слово "{word}"')
         return cleaned_description
+
