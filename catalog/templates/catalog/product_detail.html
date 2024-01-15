@@ -8,9 +8,11 @@
 </div>
 
 <div class="row">
+  {% if object.image %}
   <div class="col-12 col-md-4 gy-4">
     <img src={{ object.image.url }} alt={{ object.name }} class="img-fluid rounded-start" width="300" height="300">
   </div>
+  {% endif %}
   <div class="col-6 col-md-8 gy-4">
     <tbody>
     <tr>

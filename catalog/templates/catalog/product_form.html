@@ -1,0 +1,57 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<form method="post">
+    <div class="col-12"><div/>
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                     <div class="card-header">
+                     <h2>Введите данные продукта</h2>
+                     <div class="card-body">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                    <button type="submit" class="btn btn">
+                           {% if object.is_published %}
+                           <a class="p-1 btn btn-outline-danger" href="{% url 'catalog:toggle' object.pk %}">Cкрыть видимость</a>
+                           {% else %}
+                           <a class="p-1 btn btn-outline-success">Опубликовать</a>
+                           {% endif %}
+                    </div>
+                </div>
+              </div>
+
+            <div class="col-6">
+                <div class="card">
+                {% if not user.is_staff %}
+                     <div class="card-header">
+                     <h2>Введите данные версии </h2>
+            </div>
+            <div class="card-body">
+                {{ formset.management_form }}
+                {% for form in formset.forms %}
+                    {{form.as_p}}
+                {% endfor %}
+            </div>
+            {% endif%}
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-success">
+                    {% if object %}
+                    Сохранить
+                    {% else %}
+                    Создать
+                    {% endif %}
+                    </button>
+                    <a href="{% url 'catalog:products' %}" type="button"
+                    class="btn btn-outline-secondary">Назад</a>
+                </div>
+            </div>
+         </div>
+    </div>
+</div>
+</form></div>
+
+{% endblock %}
