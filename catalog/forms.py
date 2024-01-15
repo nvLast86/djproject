@@ -1,5 +1,5 @@
 from django import forms
-from catalog.models import Product
+from catalog.models import Product, Version
 
 
 class ProductForm(forms.ModelForm):
@@ -7,10 +7,10 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ('title', 'description', 'image', 'category', 'price',)
+        fields = ('name', 'description', 'image', 'category', 'price',)
 
     def clean_name(self):
-        cleaned_name = self.cleaned_data['title']
+        cleaned_name = self.cleaned_data['name']
         for word in self.forbidden_words:
             if word in cleaned_name.lower():
                 raise forms.ValidationError(f'Название не может содержать слово "{word}"')
@@ -23,3 +23,8 @@ class ProductForm(forms.ModelForm):
                 raise forms.ValidationError(f'Описание не может содержать слово "{word}"')
         return cleaned_description
 
+
+class VersionForm(forms.ModelForm):
+    class Meta:
+        model = Version
+        fields = ('product', 'name', 'version', 'is_active',)
