@@ -29,6 +29,9 @@ class ProductListView(generic.ListView):
     model = Product
     template_name = 'catalog/home.html'
 
+    def get_queryset(self):
+        return Product.objects.filter(is_active=True)
+
 
 class ProductDetailView(generic.DetailView):
     model = Product
