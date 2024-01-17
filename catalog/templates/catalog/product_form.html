@@ -14,19 +14,15 @@
                         </div>
                     </div>
                     <div class="btn-group">
-                    <button type="submit" class="btn btn">
-                           {% if object.is_published %}
-                           <a class="p-1 btn btn-outline-danger" href="{% url 'catalog:toggle' object.pk %}">Cкрыть видимость</a>
-                           {% else %}
-                           <a class="p-1 btn btn-outline-success">Опубликовать</a>
-                           {% endif %}
+                        <a href="javascript:history.go(-1)" class="btn btn-primary bg-secondary">Назад</a>
+                        <a href="{% url 'catalog:product-detail' product.id %}" class="btn btn-primary bg-secondary">Сохранить</a>
+
                     </div>
                 </div>
               </div>
 
             <div class="col-6">
                 <div class="card">
-                {% if not user.is_staff %}
                      <div class="card-header">
                      <h2>Введите данные версии </h2>
             </div>
@@ -36,8 +32,7 @@
                     {{form.as_p}}
                 {% endfor %}
             </div>
-            {% endif%}
-                <div class="btn-group">
+            <div class="btn-group">
                     <button type="submit" class="btn btn-success">
                     {% if object %}
                     Сохранить
@@ -45,8 +40,8 @@
                     Создать
                     {% endif %}
                     </button>
-                    <a href="{% url 'catalog:products' %}" type="button"
-                    class="btn btn-outline-secondary">Назад</a>
+                    <a href="{% url 'catalog:products-list' %}" type="button"
+                    class="btn bg-secondary">Назад</a>
                 </div>
             </div>
          </div>
