@@ -25,6 +25,7 @@ class Product(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=7, verbose_name='Цена')
     create_date = models.DateTimeField(verbose_name='Дата создания', **NULLABLE)
     last_change_date = models.DateTimeField(verbose_name='Дата последнего изменения', **NULLABLE)
+    is_active = models.BooleanField(default=False, verbose_name='признак_публикации')
 
     def __str__(self):
         return f'{self.name}'
@@ -36,9 +37,9 @@ class Product(models.Model):
 
 class Version(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='продукт')
-    number_version = models.IntegerField(verbose_name='номер версии')
+    version = models.IntegerField(verbose_name='номер версии')
     title_version = models.CharField(max_length=150, verbose_name='название версии')
-    is_active = models.BooleanField(verbose_name='признак текущей версии', default=True)
+    is_active = models.BooleanField(verbose_name='признак текущей версии', default=False, **NULLABLE)
 
     def __str__(self):
         return f'{self.title_version} ({self.product})'
