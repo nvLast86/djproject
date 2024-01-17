@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Category, Version
 from django.views import generic
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .forms import ProductForm, VersionForm
 from django.forms import inlineformset_factory
 
@@ -30,19 +30,19 @@ class ProductListView(generic.ListView):
     template_name = 'catalog/home.html'
 
     def get_queryset(self):
-        return Product.objects.filter(is_active=True)
+        return Product.objects.filter(version__is_active=True)
 
 
 class ProductDetailView(generic.DetailView):
     model = Product
     context_object_name = 'product'
-    pk_url_kwarg = 'id'
+    pk_url_kwarg = 'pk'
 
 
 class ProductCreateView(generic.CreateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('catalog:products')
+    success_url = reverse_lazy('catalog:products-list')
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -57,7 +57,10 @@ class ProductCreateView(generic.CreateView):
 class ProductUpdateView(generic.UpdateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('catalog:products')
+    # success_url = reverse_lazy('catalog:product-detail')
+
+    def get_success_url(self):
+        return reverse('catalog:product-detail', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -71,7 +74,9 @@ class ProductUpdateView(generic.UpdateView):
 
 class ProductDeleteView(generic.DeleteView):
     model = Product
-    success_url = reverse_lazy('catalog:products')
+    success_url = reverse_lazy('catalog:products-list')
+
+
 
 
 class CategoryListView(generic.ListView):
