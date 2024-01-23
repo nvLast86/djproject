@@ -1,50 +1,30 @@
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm, SetPasswordForm, PasswordResetForm
 from django import forms
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from users.models import User
 
 
-class FormStyleMixin:
+class StyleFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
 
 
-class UserForm(FormStyleMixin, UserChangeForm):
-    class Meta:
-        model = User
-        fields = ('email', 'first_name', 'last_name', 'phone', 'avatar', 'country', )
+class UserRegisterForm(StyleFormMixin, UserCreationForm):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['password'].widget = forms.HiddenInput()
-
-
-class UserRegisterForm(FormStyleMixin, UserCreationForm):
     class Meta:
         model = User
         fields = ('email', 'password1', 'password2')
 
 
-class UserForgotPasswordForm(FormStyleMixin, PasswordResetForm):
+class UserProfileForm(StyleFormMixin, UserChangeForm):
+
+    class Meta:
+        model = User
+        fields = ('email', 'first_name', 'first_name', 'phone', 'country', 'avatar')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control',
-                'autocomplete': 'off'
-            })
 
-
-class UserSetNewPasswordForm(FormStyleMixin, SetPasswordForm):
-
-    def __init__(self, *args, **kwargs):
-
-        super().__init__(*args, **kwargs)
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control',
-                'autocomplete': 'off'
-            })
+        self.fields['password'].widget = forms.HiddenInput()
