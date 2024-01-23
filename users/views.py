@@ -1,180 +1,92 @@
-from random import sample
-from django.contrib import messages
-from django.contrib.auth import login
-from django.contrib.auth.mixins import UserPassesTestMixin
-from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
-from django.contrib.messages.views import SuccessMessageMixin
+from random import random, randint
+
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordResetView
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
-from django.shortcuts import redirect
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views import View
-
-from config import settings
-from users.models import User
+from django.http import HttpResponseForbidden
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.views.generic import UpdateView, CreateView, TemplateView
-from users.forms import UserForm, UserRegisterForm, UserForgotPasswordForm, UserSetNewPasswordForm
+from django.utils.crypto import get_random_string
+from django.views import View
+from django.views.generic import CreateView, UpdateView
 
 
-# Create your views here.
-class UserIsNotAuthenticated(UserPassesTestMixin):
-    def test_func(self):
-        if self.request.user.is_authenticated:
-            messages.info(self.request, 'Вы уже авторизованы. Вы не можете посетить эту страницу.')
-            raise PermissionDenied
-        return True
-
-    def handle_no_permission(self):
-        return redirect('home')
-
-
-class UserForgotPasswordView(SuccessMessageMixin, PasswordResetView):
-    form_class = UserForgotPasswordForm
-    template_name = 'users/user_password_reset.html'
-    success_url = reverse_lazy('catalog:index')
-    success_message = 'Письмо с инструкцией по восстановлению пароля отправлено на ваш email'
-    subject_template_name = 'users/email/password_subject_reset_mail.txt'
-    email_template_name = 'users/email/password_reset_mail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Запрос на восстановление пароля'
-        return context
-
-
-class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
-    form_class = UserSetNewPasswordForm
-    template_name = 'users/user_password_set_new.html'
-    success_url = reverse_lazy('catalog:home')
-    success_message = 'Пароль успешно изменен. Можете авторизоваться на сайте.'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Установить новый пароль'
-        return context
-
-
-class ProfileUpdateView(UpdateView):
-    model = User
-    form_class = UserForm
-    success_url = reverse_lazy('users:profile')
-
-    def get_object(self, queryset=None):
-        return self.request.user
-
-
-class UserConfirmEmailView(View):
-    def get(self, request, uidb64, token):
-        try:
-            uid = urlsafe_base64_decode(uidb64)
-            user = User.objects.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            user = None
-
-        if user is not None and default_token_generator.check_token(user, token):
-            user.is_active = True
-            user.save()
-            login(request, user)
-            return redirect('users:email_confirmed')
-        else:
-            return redirect('users:email_confirmation_failed')
-
-
-class EmailConfirmationSentView(TemplateView):
-    template_name = 'users/email_confirmation_sent.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Письмо активации отправлено'
-        return context
-
-
-class EmailConfirmedView(TemplateView):
-    template_name = 'users/email_confirmed.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Ваш электронный адрес активирован'
-        return context
-
-
-class EmailConfirmationFailedView(TemplateView):
-    template_name = 'users/email_confirmation_failed.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Ваш электронный адрес не активирован'
-        return context
-
-
-class UserRegisterView(SuccessMessageMixin, CreateView):
-    model = User
-    form_class = UserRegisterForm
-    success_url = reverse_lazy('products:index')
-    template_name = 'users/register.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Регистрация на сайте'
-        return context
-
-    def form_valid(self, form):
-        user = form.save(commit=False)
-        user.is_active = False
-        user.save()
-        # Функционал для отправки письма и генерации токена
-        token = default_token_generator.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
-        activation_url = reverse_lazy('users:confirm_email', kwargs={'uidb64': uid, 'token': token})
-        current_site = get_current_site(self.request)
-        domain = current_site.domain
-        send_mail(
-            'Подтвердите свой электронный адрес',
-            f'Пожалуйста, перейдите по следующей ссылке, чтобы подтвердить свой адрес электронной почты: http://{domain}{activation_url}',
-            settings.EMAIL_HOST_USER,
-            [user.email],
-            fail_silently=False,
-        )
-        return redirect('user_auth:email_confirmation_sent')
+from users.forms import UserRegisterForm, UserProfileForm
+from users.models import User
 
 
 class RegisterView(CreateView):
     model = User
     form_class = UserRegisterForm
-    success_url = reverse_lazy('products:index')
-    template_name = 'user_auth/register.html'
+    template_name = 'users/register.html'
+    success_url = reverse_lazy('users:login')
+
 
     def form_valid(self, form):
+        response = super().form_valid(form)
         new_user = form.save()
-        verification_kod = "".join(sample("".join([str(i) for i in range(0,10)]), 4))
-
-        verification_link = ""
-        message = f"""Для завершения регистрации пройдите
-        по следующей ссылке, чтобы подтвердить свой
-        адрес электронной почты: < a href = "{{ verification_link }}" > Подтвердить < / a >"""
-
+        # Создаем и сохраняем токен подтверждения
+        token = get_random_string(length=50)
+        new_user.verification_token = token
+        new_user.save()
+        # Отправляем письмо с подтверждением
+        current_site = get_current_site(self.request)
+        mail_subject = 'Подтвердите ваш аккаунт'
+        message = (
+            f'Поздравляем, Вы зарегистрировались на нашем портале!\n'
+            f'Для завершения регистрации и подтверждения вашей электронной почты, '
+            f'пожалуйста, кликните по следующей ссылке:\n'
+            f'http://{current_site.domain}{reverse("users:verify_email", kwargs={"uid": new_user.pk, "token": token})}'
+        )
         send_mail(
-            subject='Вы начали процедуру регистрации',
+            subject=mail_subject,
             message=message,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[new_user.email]
         )
+        return response
+
+
+class VerifyEmailView(View):
+    def get(self, request, uid, token):
+        try:
+            user = get_object_or_404(User, pk=uid, verification_token=token)
+            user.is_verified = True
+            user.save()
+            return render(request, 'users/registration_success.html')  # Покажем сообщение о регистрации
+        except User.DoesNotExist:
+            return render(request, 'users/registration_failed.html')  # Покажем сообщение об ошибке
+
+class ProfileView(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = UserProfileForm
+    success_url = reverse_lazy('catalog:home')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_verified:
+            return HttpResponseForbidden("Ваша электронная почта еще не проверена.")
+        return super().dispatch(request, *args, **kwargs)
+
+
+class CustomPasswordResetView(PasswordResetView):
+    def form_valid(self, form):
+        # Генерация нового случайного пароля
+        new_password = ''.join([str(randint(0, 9)) for _ in range(12)])
+        email = form.cleaned_data['email']
+        User = get_user_model()
+        user = User.objects.get(email=email)
+        user.set_password(new_password)
+        user.save()
+
+        # Отправка нового пароля пользователю по электронной почте
+        send_mail(
+            subject='Восстановление пароля',
+            message=f'Ваш новый пароль: {new_password}',
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[user.email]
+        )
+
         return super().form_valid(form)
-
-
-def generate_new_password(request):
-    password = "".join(sample("".join([str(i) for i in range(0,10)]) +
-                              "*+-_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 10))
-    request.user.set_password(password)
-    request.user.save()
-    send_mail(
-        subject='Новый пароль',
-        message=f'Вам установлен новый пароль:\n{password}',
-        from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[request.user.email]
-    )
-    return redirect(reverse('users:login'))
