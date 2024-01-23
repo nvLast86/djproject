@@ -1,23 +1,29 @@
-{% extends 'catalog/base.html' %}
+{ extends 'catalog/base.html' %}
 
 {% block content %}
-<div class="row"
-<div class="col-3">
-    <div class="col-6">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-success">Войти</button>
-                    </form>
-                </div>
-                <div class="card-footer">
-            Заполните здесь свои данные
-                </div>
+
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-6">
+                <form method="POST" enctype="multipart/form-data" class="border p-4">
+                    <h2 class="card-title">
+                        Вход
+                    </h2>
+                    <div class="row mb-3">
+                        <div class="col-sm-2"></div>
+                        <hr>
+                        <div class="col-sm-10">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-success">Войти</button>
+                            <p>Забыли пароль? <a href="{% url 'users:password_reset' %}">Восстановить пароль</a></p>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
+
     </div>
-    </div>
-{% endblock %}
+</div>
+            {% endblock %}
