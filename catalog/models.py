@@ -25,7 +25,6 @@ class Product(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=7, verbose_name='Цена')
     create_date = models.DateTimeField(verbose_name='Дата создания', **NULLABLE)
     last_change_date = models.DateTimeField(verbose_name='Дата последнего изменения', **NULLABLE)
-    is_active = models.BooleanField(default=False, verbose_name='признак_публикации')
 
     def __str__(self):
         return f'{self.name}'
