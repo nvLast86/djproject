@@ -40,12 +40,22 @@
           <a class="nav-link" href="{% url 'blog:post_list' %}">Блог</a>
               </li>
           <li class="nav-item">
-              {% if user.is_authenticated %}
+              <div class="avatar-container">
+        {% if user.is_authenticated %}
+                  <li class="nav-item">
+                  <a class="nav-link" href="{% url 'users:profile' pk=user.pk %}">Профиль</a>
+                  </li>
+                      <li class="nav-item">
                   <a class="nav-link" href="{% url 'users:logout' %}">Выйти</a>
-               {% else %}
+                          </li>
+                  {% else %}
+                  <li class="nav-item">
                   <a class="nav-link" href="{% url 'users:login' %}">Войти</a>
+                  </li>
+                      <li class="nav-item">
                   <a class="nav-link" href="{% url 'users:register' %}">Регистрация</a>
-               {% endif %}
+                          </li>
+        {% endif %}
           </li>
        </ul>
     </div>
