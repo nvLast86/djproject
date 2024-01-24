@@ -50,25 +50,10 @@ class RegisterView(CreateView):
         return response
 
 
-class VerifyEmailView(View):
-    def get(self, request, uid, token):
-        try:
-            user = get_object_or_404(User, pk=uid, verification_token=token)
-            user.is_verified = True
-            user.save()
-            return render(request, 'users/registration_success.html')  # Покажем сообщение о регистрации
-        except User.DoesNotExist:
-            return render(request, 'users/registration_failed.html')  # Покажем сообщение об ошибке
-
 class ProfileView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserProfileForm
     success_url = reverse_lazy('catalog:home')
-
-    def dispatch(self, request, *args, **kwargs):
-        if not self.request.user.is_verified:
-            return HttpResponseForbidden("Ваша электронная почта еще не проверена.")
-        return super().dispatch(request, *args, **kwargs)
 
 
 class CustomPasswordResetView(PasswordResetView):
