@@ -7,6 +7,7 @@
     </div>
 
 <div class="row">
+    {% if user.is_authenticated %}
     {% for object in object_list %}
     <div class="col-md-4 flex-shrink: 0 gy-4">
         <div class="card h-100">
@@ -18,10 +19,12 @@
                 {% endif %}
                 <p class="card-text">{{ object.description|slice:100 }}</p>
                 <a href="{% url 'catalog:product-detail' object.pk %}" class="btn btn-primary bg-secondary">Подробнее</a>
+
             </div>
         </div>
     </div>
     {% endfor %}
+    {% endif %}
 </div>
 
 {% endblock %}

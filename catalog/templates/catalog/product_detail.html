@@ -37,8 +37,12 @@
     </tr></br>
 
     </tbody>
+    {% if object.user == request.user or perms.catalog.change_product %}
     <a href="{% url 'catalog:product-update' product.id %}" class="btn btn-primary bg-secondary">Обновить</a>
+    {% endif %}
+    {% if object.user == request.user or perms.catalog.delete_product %}
     <a href="{% url 'catalog:product-delete' product.id %}" class="btn btn-primary bg-secondary">Удалить</a>
+     {% endif %}
   </div>
 </div>
 

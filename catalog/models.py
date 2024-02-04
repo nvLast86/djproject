@@ -25,13 +25,28 @@ class Product(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=7, verbose_name='Цена')
     create_date = models.DateTimeField(verbose_name='Дата создания', **NULLABLE)
     last_change_date = models.DateTimeField(verbose_name='Дата последнего изменения', **NULLABLE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, default=None, null=True,
+                             verbose_name ='пользователь')
+    is_published = models.BooleanField(default=False, verbose_name='опубликован?')
 
     def __str__(self):
         return f'{self.name}'
 
     class Meta:
+        permissions = [
+            ('set_published', 'Can publish posts'),
+            ('change_product_description', 'Can change product description'),
+            ('change_product_category', 'Can change product category')
+        ]
+
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+
+    def has_permission_to_change(self, user):
+        return self.user == user
+
+    def has_permission_to_delete(self, user):
+        return self.user == user
 
 
 class Version(models.Model):

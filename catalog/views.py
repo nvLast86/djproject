@@ -4,6 +4,7 @@ from django.views import generic
 from django.urls import reverse_lazy, reverse
 from .forms import ProductForm, VersionForm
 from django.forms import inlineformset_factory
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 class HomeView(generic.TemplateView):
@@ -54,10 +55,11 @@ class ProductCreateView(generic.CreateView):
         return context_data
 
 
-class ProductUpdateView(generic.UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Product
     form_class = ProductForm
-    # success_url = reverse_lazy('catalog:product-detail')
+    permission_required = 'catalog_change_product'
+    success_url = reverse_lazy('catalog:product-detail')
 
     def get_success_url(self):
         return reverse('catalog:product-detail', kwargs={'pk': self.object.pk})
@@ -71,12 +73,19 @@ class ProductUpdateView(generic.UpdateView):
             context_data['formset'] = subjectformset(instance=self.object)
         return context_data
 
+    def has_permission(self):
+        product = self.get_object()
+        return product.has_permission_to_change(self.request.user)
 
-class ProductDeleteView(generic.DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
     model = Product
+    permission_required = 'catalog.delete_product'
     success_url = reverse_lazy('catalog:products-list')
 
-
+    def has_permission(self):
+        product = self.get_object()
+        return product.has_permission_to_delete(self.request.user)
 
 
 class CategoryListView(generic.ListView):
