@@ -8,12 +8,12 @@ from catalog.views import (contacts, ProductListView, ProductDetailView, Categor
 app_name = CatalogConfig.name
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='home'),
+    path('', cashe_page(60)(HomeView.as_view()), name='home'),
     path('contacts/', contacts, name='contacts'),
-    path('categories/', CategoryListView.as_view(), name='categories'),
+    path('categories/', cashe_page(60)(CategoryListView.as_view()), name='categories'),
     path('products/', ProductListView.as_view(), name='products-list'),
-    path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail'),
-    path('create/', ProductCreateView.as_view(), name='product-create'),
-    path('update/<int:pk>/', ProductUpdateView.as_view(), name='product-update'),
+    path('products/<int:pk>/', cashe_page(60)(ProductDetailView.as_view()), name='product-detail'),
+    path('create/', never_cashe(ProductCreateView.as_view()), name='product-create'),
+    path('update/<int:pk>/', never_cashe(ProductUpdateView.as_view()), name='product-update'),
     path('delete/<int:pk>/', ProductDeleteView.as_view(), name='product-delete'),
 ]
