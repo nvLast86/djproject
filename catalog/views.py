@@ -5,6 +5,7 @@ from django.urls import reverse_lazy, reverse
 from .forms import ProductForm, VersionForm
 from django.forms import inlineformset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from services import get_cached_categories
 
 
 class HomeView(generic.TemplateView):
@@ -88,8 +89,9 @@ class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.Del
         return product.has_permission_to_delete(self.request.user)
 
 
-class CategoryListView(generic.ListView):
-    model = Category
-    template_name = 'catalog/categories.html'
-
-
+def categories(request):
+    context = {
+        'object_list': get_cached_categories(),
+        'title': "Все категории"
+    }
+    return render(request, 'catalog/categories.html', context)
